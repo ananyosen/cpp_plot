@@ -1,4 +1,5 @@
 ./builds*
 *.so
 *.o
-
+SFML
+.vscode
