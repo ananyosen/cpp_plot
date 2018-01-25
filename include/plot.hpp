@@ -10,7 +10,6 @@
 
 namespace cpl{
     
-    std::vector<Plot> active_plots;
     unsigned int current_plot;
 
     class Plot{
@@ -21,14 +20,11 @@ namespace cpl{
             bool window_resizable;
 
             /* Plot params */
-            double xmin, xmax, ymin, ymax;
+            double x_min, x_max, y_min, y_max;
             
             /* Constructors */
-            template <typename T>
-            Plot& Plot(std::vector<T>& y_list);
-            Plot& Plot(std::vector<T>& x_list, std::vector<T>& y_list);
-            Plot& Plot(std::vector<T>& x_list, std::vector<T>& y_list, std::string format_string);
-            Plot& Plot(std::vector<T>& x_list, std::vector<T>& y_list, std::string format_string, std::string legend);
+            template <typename T, typename U>
+            Plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string="b-", std::string legend="");
             
             /* Window functions */
             void setTitle(std::string window_title);
@@ -52,7 +48,9 @@ namespace cpl{
             sf::Event event;
 
     };
-
+    
+    std::vector<Plot> active_plots;
+    template <typename T>       
     Plot& plot(std::vector<T>& x_list, std::vector<T>& y_list, std::string format_string, std::string legend);
 }
 
