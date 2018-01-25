@@ -8,7 +8,7 @@
 #include <string>
 
 
-namespace Plot{
+namespace cpl{
     
     std::vector<Plot> active_plots;
     unsigned int current_plot;
@@ -43,7 +43,7 @@ namespace Plot{
             void xrange(double xmin, double xmax);
             void yrange(double ymin, double ymax);
 
-            void show();
+            void show(); /* Setup window and show the plot */
 
         private:
 
