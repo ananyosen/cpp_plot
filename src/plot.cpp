@@ -26,13 +26,13 @@ namespace plot{
             }
             
             template <typename T>            
-            Plot & plot(std::vector<T>& x_list, std::vector<T>& y_list, format_string="b-", legend="")
+            Plot & plot(std::vector<T>& x_list, std::vector<T>& y_list, std::string format_string="b-", std::string legend="")
             {
                 this->plot_finally(x_list, y_list, format_string, legend);                
             }
 
             template <typename T>
-            void plot_finally(std::vector<T>& x_list, std::vector<T>& y_list, format_string, legend)
+            void plot_finally(std::vector<T>& x_list, std::vector<T>& y_list, std::string format_string, std::string legend)
             {
 
             }
