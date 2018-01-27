@@ -21,10 +21,15 @@ namespace cpl{
 
             /* Plot params */
             double x_min, x_max, y_min, y_max;
+            std::string plot_title;
+            double point_size;
             
             /* Constructors */
+            template <typename T>
+            Plot(std::vector<T>& y_list, std::string format_string="b-", std::string legend="");
             template <typename T, typename U>
             Plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string="b-", std::string legend="");
+            Plot(bool create_window=false, float window_width=5, float window_height=5);
             
             /* Window functions */
             void setTitle(std::string window_title);
@@ -38,6 +43,8 @@ namespace cpl{
             void ymax(double ymax);
             void xrange(double xmin, double xmax);
             void yrange(double ymin, double ymax);
+            void title(std::string plot_title);
+
 
             void show(); /* Setup window and show the plot */
 
@@ -46,6 +53,11 @@ namespace cpl{
             /* SFML objects */
             sf::RenderWindow window;
             sf::Event event;
+
+
+            /* Helper functions */
+
+
 
     };
     

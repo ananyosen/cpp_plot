@@ -8,11 +8,11 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/libs)
 #Headers
 include_directories(include)
 
-set(SOURCES src/plot.cpp)
+set(SOURCES src/plot.cpp src/plotdata.cpp)
 
 set(EXEC_NAME cpp_plt)
 
-add_library(${EXEC_NAME} STATIC ${SOURCES})
+add_library(${EXEC_NAME} SHARED ${SOURCES})
 #add_executable(cpp_plt ${SOURCES})
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
