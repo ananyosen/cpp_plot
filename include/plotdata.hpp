@@ -24,8 +24,8 @@ namespace cpl
 
 
         private:
-            std::vector<T>& x_data;
-            std::vector<U>& y_data;
+            std::vector<T> x_data;
+            std::vector<U> y_data;
             std::string fmt_string;
             std::string lgend;
             std::string mrker;
@@ -37,4 +37,5 @@ namespace cpl
     unsigned int parse_colors(std::string color_name);
 }
 
+#include <plotdata.tpp>
 #endif

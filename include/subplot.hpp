@@ -32,7 +32,8 @@ namespace cpl
             // bool custom_xrange
             std::string subplot_title;
 
-            Subplot(double view_frctn=1.0);
+            Subplot(double view_frctn);
+            void initialize_plots();
             void addPlotdata(std::vector<T>& x, std::vector<U>& y, std::string format_string, std::string legend);
             void removePlotdata(unsigned int position);
             void draw(sf::RenderWindow& parent_wndw);
@@ -41,8 +42,9 @@ namespace cpl
             sf::RenderWindow parent_window;
             std::vector<cpl::PlotData<T, U>> plot_datasets;
             unsigned int current_dataset;
-            bool init_done = false;
+            bool has_data;
     };
 }
 
+#include <subplot.tpp>
 #endif
