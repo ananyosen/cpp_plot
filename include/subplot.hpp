@@ -14,9 +14,13 @@
 #include <limits>
 #include <stdexcept>
 #include <sstream>
+#include <cmath>
 
 #include <SFML/Window.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Vertex.hpp>
+#include <SFML/Graphics/PrimitiveType.hpp>
 
 #include <plotdata.hpp>
 
@@ -29,6 +33,7 @@ namespace cpl
             /* Plot view specific params */
             double x_min, x_max, y_min, y_max, x_range_scale, y_range_scale;
             double view_fraction, x_view_start, x_view_end, y_view_start, y_view_end;
+            bool is_log_x, is_log_y;
             // bool custom_xrange
             std::string subplot_title;
 
@@ -36,13 +41,15 @@ namespace cpl
             void initialize_plots();
             void addPlotdata(std::vector<T>& x, std::vector<U>& y, std::string format_string, std::string legend);
             void removePlotdata(unsigned int position);
-            void draw(sf::RenderWindow& parent_wndw);
+            void draw(sf::RenderWindow* parent_wndw);
 
         private:
-            sf::RenderWindow parent_window;
+            sf::RenderWindow* parent_window;
             std::vector<cpl::PlotData<T, U>> plot_datasets;
             unsigned int current_dataset;
             bool has_data;
+            std::vector<sf::Color> common_colors;
+            double mapValue(double min, double max, double value, double length, bool is_log10);
     };
 }
 
