@@ -1,12 +1,13 @@
 #ifndef PLOT_HPP
 #define PLOT_HPP
 
-
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
 
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+
+#include <subplot.hpp>
 
 namespace cpl{
     
@@ -29,7 +30,7 @@ namespace cpl{
             Plot(std::vector<T>& y_list, std::string format_string="b-", std::string legend="");
             template <typename T, typename U>
             Plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string="b-", std::string legend="");
-            Plot(bool create_window=false, float window_width=5, float window_height=5);
+            Plot(float window_width=5, float window_height=5);
             
             /* Window functions */
             void setTitle(std::string window_title);
@@ -53,6 +54,11 @@ namespace cpl{
             /* SFML objects */
             sf::RenderWindow window;
             sf::Event event;
+            float view_scale_multiplier = 100.0;
+            std::vector<cpl::Subplot> subplots;
+
+            template <typename T, typename U>            
+            void initialize_plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string, std::string legend);
 
 
             /* Helper functions */
@@ -65,5 +71,7 @@ namespace cpl{
     template <typename T>       
     Plot& plot(std::vector<T>& x_list, std::vector<T>& y_list, std::string format_string, std::string legend);
 }
+
+#include <plot.tpp>
 
 #endif

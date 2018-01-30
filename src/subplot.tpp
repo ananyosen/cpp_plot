@@ -121,7 +121,6 @@ namespace cpl
                 throw std::invalid_argument("can't plot with 0 datapoints");
             }
             std::vector<sf::Vertex> vertices;
-            // TODO: cleanup
             double x_pt = this->mapValue(this->x_min, this->x_max, x.at(0), draw_size.x, this->is_log_x) + draw_top_left.x;
             double y_pt = (draw_size.y - this->mapValue(this->y_min, this->y_max, y.at(0), draw_size.y, this->is_log_y)) + draw_top_left.y;
             vertices.push_back(sf::Vertex(sf::Vector2f(x_pt, y_pt), this->plot_datasets.at(iii).plot_color));
