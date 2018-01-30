@@ -22,7 +22,7 @@ int main()
         y.push_back(s);
         y2.push_back(s2);
     }
-    cpl::Subplot<double, double> plt(1.0);
+    cpl::Subplot plt(1.0);
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8; // 8xMSAA
     plt.addPlotdata(x, y, "", "");

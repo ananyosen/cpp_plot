@@ -26,7 +26,6 @@
 
 namespace cpl
 {
-    template<typename T, typename U>
     class Subplot
     {
         public:
@@ -39,13 +38,16 @@ namespace cpl
 
             Subplot(double view_frctn);
             void initialize_plots();
+            
+            template<typename T, typename U>
             void addPlotdata(std::vector<T>& x, std::vector<U>& y, std::string format_string, std::string legend);
+            
             void removePlotdata(unsigned int position);
             void draw(sf::RenderWindow* parent_wndw);
 
         private:
             sf::RenderWindow* parent_window;
-            std::vector<cpl::PlotData<T, U>> plot_datasets;
+            std::vector<cpl::PlotData> plot_datasets;
             unsigned int current_dataset;
             bool has_data;
             std::vector<sf::Color> common_colors;

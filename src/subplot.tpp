@@ -16,8 +16,8 @@
 
 namespace cpl
 {
-    template<typename T, typename U>
-    Subplot<T, U>::Subplot(double view_frctn)
+    // template<typename T, typename U>
+    Subplot::Subplot(double view_frctn)
     {
         /* 
         ** Initialize a Subplot, with optional view fraction
@@ -43,8 +43,8 @@ namespace cpl
         this->initialize_plots();
     }
 
-    template<typename T, typename U>
-    void Subplot<T, U>::initialize_plots()
+    // template<typename T, typename U>
+    void Subplot::initialize_plots()
     {
         this->x_min = this->y_min = std::numeric_limits<double>::max();
         this->x_max = this->y_max = std::numeric_limits<double>::min();
@@ -52,7 +52,7 @@ namespace cpl
     }
 
     template<typename T, typename U>
-    void Subplot<T, U>::addPlotdata(std::vector<T>& x, std::vector<U>& y, std::string format_string, std::string legend)
+    void Subplot::addPlotdata(std::vector<T>& t_x, std::vector<U>& u_y, std::string format_string, std::string legend)
     {
         /*
         ** init a PlotData, store it to plot_datasets
@@ -60,8 +60,10 @@ namespace cpl
         ** newly added PlotData. Optionally set xrange
         ** and yrange from dataset
         */
+        std::vector<double> x = t_x;
+        std::vector<double> y = u_y;
         unsigned int color_id = this->plot_datasets.size() % this->common_colors.size();
-        this->plot_datasets.push_back(cpl::PlotData<T, U>(x, y, format_string, legend, this->common_colors.at(color_id)));
+        this->plot_datasets.push_back(cpl::PlotData(x, y, format_string, legend, this->common_colors.at(color_id)));
         this->current_dataset = this->plot_datasets.size() - 1;
         double min_x = *std::min_element(x.begin(), x.end());
         double min_y= *std::min_element(y.begin(), y.end());
@@ -77,8 +79,8 @@ namespace cpl
         this->y_max = max_y + (max_y - min_y)*this->y_range_scale;
     }
 
-    template<typename T, typename U>
-    void Subplot<T, U>::removePlotdata(unsigned int position)
+    // template<typename T, typename U>
+    void Subplot::removePlotdata(unsigned int position)
     {
         /*
         ** Remove a PlotData from the Subplot
@@ -102,8 +104,8 @@ namespace cpl
         }
     }
 
-    template<typename T, typename U>
-    void Subplot<T, U>::draw(sf::RenderWindow* render_wndw)
+    // template<typename T, typename U>
+    void Subplot::draw(sf::RenderWindow* render_wndw)
     {
         /* Oh boy, this is a big one */
         this->parent_window = render_wndw;
@@ -114,8 +116,8 @@ namespace cpl
         sf::Vector2<float> draw_size((this->x_view_end - this->x_view_start)*width, (this->y_view_end - this->y_view_start)*height);
         for(unsigned int iii = 0; iii < this->plot_datasets.size(); iii++)
         {
-            const std::vector<T> x = this->plot_datasets.at(iii).getX();
-            const std::vector<U> y = this->plot_datasets.at(iii).getY();
+            const std::vector<double> x = this->plot_datasets.at(iii).getX();
+            const std::vector<double> y = this->plot_datasets.at(iii).getY();
             if(x.size()==0 || y.size()==0)
             {
                 throw std::invalid_argument("can't plot with 0 datapoints");
@@ -134,8 +136,8 @@ namespace cpl
         }
     }
 
-    template<typename T, typename U>
-    double Subplot<T, U>::mapValue(double min, double max, double value, double length, bool is_log10)
+    // template<typename T, typename U>
+    double Subplot::mapValue(double min, double max, double value, double length, bool is_log10)
     {
         /*
         ** Map a value within min and max to the plot area

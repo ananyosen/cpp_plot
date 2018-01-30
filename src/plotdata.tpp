@@ -8,8 +8,8 @@
 
 namespace cpl
 {
-    template<typename T, typename U>
-    PlotData<T, U>::PlotData(std::vector<T>& x, std::vector<U>& y, std::string format_string, std::string legend, sf::Color& plt_color)
+    // template<typename T, typename U>
+    PlotData::PlotData(std::vector<double>& x, std::vector<double>& y, std::string format_string, std::string legend, sf::Color& plt_color)
     {
         if(x.size() != y.size())
         {
@@ -25,42 +25,36 @@ namespace cpl
         this->parse_format_string();
     }
 
-    template<typename T, typename U>
-    void PlotData<T, U>::setColor(int red, int green, int blue)
+    void PlotData::setColor(int red, int green, int blue)
     {
         this->plot_color = sf::Color(red, green, blue);
         this->has_custom_color = true;
     }
 
-    template<typename T, typename U>
-    void PlotData<T, U>::setColor(std::string color_name)
+    void PlotData::setColor(std::string color_name)
     {
         unsigned int color_uint32 = parse_colors(color_name);
         this->plot_color = sf::Color(color_uint32);
         this->has_custom_color = true;
     }
 
-    template<typename T, typename U>
-    void PlotData<T, U>::parse_format_string()
+    void PlotData::parse_format_string()
     {
         /* Placeholder code */ // TODO
     }
 
-    template<typename T, typename U>
-    void PlotData<T, U>::setLegend(std::string legend)
+    void PlotData::setLegend(std::string legend)
     {
         this->lgend = legend;
     }
 
-    template<typename T, typename U>
-    void PlotData<T, U>::setMarker(std::string marker)
+    void PlotData::setMarker(std::string marker)
     {
         this->mrker = marker;
         this->parse_format_string();
     }
 
-    template<typename T, typename U>
-    void PlotData<T, U>::setMarkerSize(unsigned short marker_sz)
+    void PlotData::setMarkerSize(unsigned short marker_sz)
     {
         this->marker_size = marker_sz;
     }
@@ -71,14 +65,12 @@ namespace cpl
         return 255; // Should be black, alpha=255;
     }
 
-    template<typename T, typename U>
-    const std::vector<T>& PlotData<T, U>::getX()
+    const std::vector<double>& PlotData::getX()
     {
         return this->x_data;
     }
     
-    template<typename T, typename U>
-    const std::vector<U>& PlotData<T, U>::getY()
+    const std::vector<double>& PlotData::getY()
     {
         return this->y_data;
     }
