@@ -4,6 +4,7 @@ project(cpp_plot)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/builds)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/libs)
+set(CMAKE_CXX_STANDARD 11)
 
 #Headers
 include_directories(include src)
