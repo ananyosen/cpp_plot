@@ -8,7 +8,6 @@
 
 namespace cpl
 {
-    // template<typename T, typename U>
     PlotData::PlotData(std::vector<double>& x, std::vector<double>& y, std::string format_string, std::string legend, sf::Color& plt_color)
     {
         if(x.size() != y.size())

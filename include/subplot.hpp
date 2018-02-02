@@ -18,6 +18,7 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
@@ -32,6 +33,7 @@ namespace cpl
             /* Plot view specific params */
             double x_min, x_max, y_min, y_max, x_range_scale, y_range_scale;
             double view_fraction, x_view_start, x_view_end, y_view_start, y_view_end;
+            double subplot_padding;
             bool is_log_x, is_log_y;
             // bool custom_xrange
             std::string subplot_title;
@@ -47,6 +49,7 @@ namespace cpl
 
         private:
             sf::RenderWindow* parent_window;
+            sf::Color gray;
             std::vector<cpl::PlotData> plot_datasets;
             unsigned int current_dataset;
             bool has_data;

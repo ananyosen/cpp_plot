@@ -8,6 +8,7 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
@@ -16,7 +17,6 @@
 
 namespace cpl
 {
-    // template<typename T, typename U>
     Subplot::Subplot(double view_frctn)
     {
         /* 
@@ -28,9 +28,12 @@ namespace cpl
         this->x_view_start = this->y_view_start = 0.0;
         this->x_view_end = this->y_view_end = 1.0;
         this->subplot_title = "";
-        this->x_range_scale = this->y_range_scale = 0.1; // plot buffer region over and below max and min points
+        this->gray = sf::Color(100, 100, 100);
+        this->x_range_scale = this->y_range_scale = 0.02; // plot buffer region over and below max and min points
+        this->subplot_padding = 0.1;
         this->is_log_x = false;
         this->is_log_y = false;
+        this->subplot_title = "";
         this->common_colors = {
             sf::Color::Blue,
             sf::Color::Red,
@@ -43,7 +46,6 @@ namespace cpl
         this->initialize_plots();
     }
 
-    // template<typename T, typename U>
     void Subplot::initialize_plots()
     {
         this->x_min = this->y_min = std::numeric_limits<double>::max();
@@ -60,8 +62,17 @@ namespace cpl
         ** newly added PlotData. Optionally set xrange
         ** and yrange from dataset
         */
-        std::vector<double> x = t_x;
-        std::vector<double> y = u_y;
+        std::vector<double> x;
+        std::vector<double> y;
+        /* Ugly copy to avoid templating horrors */ // TODO: find a way to fix
+        for(int iii = 0; iii < t_x.size(); iii++)
+        {
+            x.push_back(t_x.at(iii));
+        }
+        for(int iii = 0; iii < u_y.size(); iii++)
+        {
+            y.push_back(u_y.at(iii));
+        }
         unsigned int color_id = this->plot_datasets.size() % this->common_colors.size();
         this->plot_datasets.push_back(cpl::PlotData(x, y, format_string, legend, this->common_colors.at(color_id)));
         this->current_dataset = this->plot_datasets.size() - 1;
@@ -79,7 +90,6 @@ namespace cpl
         this->y_max = max_y + (max_y - min_y)*this->y_range_scale;
     }
 
-    // template<typename T, typename U>
     void Subplot::removePlotdata(unsigned int position)
     {
         /*
@@ -104,7 +114,6 @@ namespace cpl
         }
     }
 
-    // template<typename T, typename U>
     void Subplot::draw(sf::RenderWindow* render_wndw)
     {
         /* Oh boy, this is a big one */
@@ -114,6 +123,17 @@ namespace cpl
         unsigned int height = window_size.y;
         sf::Vector2<float> draw_top_left(this->x_view_start*width, this->y_view_start*height);
         sf::Vector2<float> draw_size((this->x_view_end - this->x_view_start)*width, (this->y_view_end - this->y_view_start)*height);
+        // TODO: implement padding
+        draw_top_left.x = draw_top_left.x + draw_size.x*this->subplot_padding;
+        draw_top_left.y = draw_top_left.y + draw_size.y*this->subplot_padding;
+        draw_size.x = draw_size.x*(1 - 2*this->subplot_padding);
+        draw_size.y = draw_size.y*(1 - 2*this->subplot_padding);
+        sf::RectangleShape borders(draw_size);
+        borders.setPosition(draw_top_left);
+        borders.setOutlineColor(this->gray);
+        borders.setOutlineThickness(2.0);
+        borders.setFillColor(sf::Color::Transparent);
+        this->parent_window->draw(borders);
         for(unsigned int iii = 0; iii < this->plot_datasets.size(); iii++)
         {
             const std::vector<double> x = this->plot_datasets.at(iii).getX();
@@ -136,7 +156,6 @@ namespace cpl
         }
     }
 
-    // template<typename T, typename U>
     double Subplot::mapValue(double min, double max, double value, double length, bool is_log10)
     {
         /*

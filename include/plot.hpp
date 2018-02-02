@@ -30,10 +30,15 @@ namespace cpl{
             Plot(std::vector<T>& y_list, std::string format_string="b-", std::string legend="");
             template <typename T, typename U>
             Plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string="b-", std::string legend="");
+            /* add new plot */
+            template <typename T>
+            void plot(std::vector<T>& y_list, std::string format_string="b-", std::string legend="");
+            template <typename T, typename U>
+            void plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string="b-", std::string legend="");
             Plot(float window_width=5, float window_height=5);
             
             /* Window functions */
-            void setTitle(std::string window_title);
+            void subplotTitle(std::string subplot_title);
             void setPlotSize(int window_width, int window_height);
             void setResizable(bool window_resizable);
 
@@ -52,11 +57,10 @@ namespace cpl{
         private:
 
             /* SFML objects */
-            sf::RenderWindow window;
-            sf::Event event;
             float view_scale_multiplier = 100.0;
             std::vector<cpl::Subplot> subplots;
-
+            unsigned int active_subplot;
+            bool has_data;
             template <typename T, typename U>            
             void initialize_plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string, std::string legend);
 
@@ -67,9 +71,14 @@ namespace cpl{
 
     };
     
-    std::vector<Plot> active_plots;
+    std::vector<cpl::Plot> current_plots;
+    unsigned int active_plot;
+    template <typename T, typename U>       
+    Plot& plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string="", std::string legend="");
     template <typename T>       
-    Plot& plot(std::vector<T>& x_list, std::vector<T>& y_list, std::string format_string, std::string legend);
+    Plot& plot(std::vector<T>& y_list, std::string format_string="", std::string legend="");
+    void figure(float window_width=5, float window_height=5);
+    void show();
 }
 
 #include <plot.tpp>

@@ -11,7 +11,6 @@
 
 namespace cpl
 {
-    // template<typename T, typename U>
     class PlotData{
         public:
             bool show_legend, has_custom_color;
@@ -26,7 +25,6 @@ namespace cpl
             void setMarkerSize(unsigned short m_size);
             const std::vector<double>& getX();
             const std::vector<double>& getY();
-            // const sf::Color
 
         private:
             std::vector<double> x_data;
