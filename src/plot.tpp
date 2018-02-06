@@ -1,9 +1,16 @@
 #include <vector>
 #include <string>
 
+#ifdef DEBUG_BUILD
+#include <iostream>
+#include <SFML/System/Vector2.hpp>
+#endif
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Image.hpp>
 
 #include <subplot.hpp>
 
@@ -106,7 +113,12 @@ namespace cpl{
         this->subplots.at(this->active_subplot).subplot_title = subplot_title;        
     }
 
-    void Plot::show()
+    void Plot::save(std::string file_name)
+    {
+        this->show(true, file_name);
+    }
+
+    void Plot::show(bool save_img, std::string file_name)
     {
         sf::ContextSettings settings;
         settings.antialiasingLevel = 8; // 8xMSAA
@@ -143,7 +155,19 @@ namespace cpl{
                 this->subplots.at(jjj).draw(&window);
             }
 
-            window.display();
+            if(save_img)
+            {
+                sf::Texture tmp_texture = sf::Texture();
+                tmp_texture.create(window.getSize().x, window.getSize().y); 
+                tmp_texture.update(window);
+                sf::Image tmp_img =  tmp_texture.copyToImage();
+                tmp_img.saveToFile(file_name);
+                window.close();
+            }
+            else
+            {
+                window.display();                
+            }
         }
 
     }
@@ -190,5 +214,10 @@ namespace cpl{
         {
             current_plots.at(iii).show();
         }
+    }
+
+    void save(std::string file_name)
+    {
+        current_plots.at(active_plot).save(file_name);
     }
 }

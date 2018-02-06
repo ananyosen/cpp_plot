@@ -25,5 +25,6 @@ int main()
     // plt.show();
     cpl::plot(x, y);
     cpl::plot(x, y2);
-    cpl::show();
+    // cpl::show();
+    cpl::save("plot.png");
 }

@@ -5,6 +5,11 @@ set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/builds)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/libs)
 set(CMAKE_CXX_STANDARD 11)
+option(DEBUG_BUILD "generate debug binaries" ON)
+
+if(DEBUG_BUILD)
+  add_definitions(-DDEBUG_BUILD)
+endif()
 
 #Headers
 include_directories(include src)

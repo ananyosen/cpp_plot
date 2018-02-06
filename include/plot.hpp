@@ -6,6 +6,8 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Image.hpp>
 
 #include <subplot.hpp>
 
@@ -51,8 +53,8 @@ namespace cpl{
             void yrange(double ymin, double ymax);
             void title(std::string plot_title);
 
-
-            void show(); /* Setup window and show the plot */
+            void save(std::string file_name);
+            void show(bool save_img = false, std::string file_name = "def.png"); /* Setup window and show the plot */
 
         private:
 
@@ -68,7 +70,6 @@ namespace cpl{
             /* Helper functions */
 
 
-
     };
     
     std::vector<cpl::Plot> current_plots;
@@ -79,6 +80,7 @@ namespace cpl{
     Plot& plot(std::vector<T>& y_list, std::string format_string="", std::string legend="");
     void figure(float window_width=5, float window_height=5);
     void show();
+    void save(std::string file_name);
 }
 
 #include <plot.tpp>
