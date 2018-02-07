@@ -22,6 +22,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 #include <plotdata.hpp>
 
@@ -45,10 +46,10 @@ namespace cpl
             void addPlotdata(std::vector<T>& x, std::vector<U>& y, std::string format_string, std::string legend);
             
             void removePlotdata(unsigned int position);
-            void draw(sf::RenderWindow* parent_wndw);
+            void draw(sf::RenderTarget* parent_wndw);
 
         private:
-            sf::RenderWindow* parent_window;
+            sf::RenderTarget* parent_window;
             sf::Color gray;
             std::vector<cpl::PlotData> plot_datasets;
             unsigned int current_dataset;

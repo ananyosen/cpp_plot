@@ -9,6 +9,7 @@ option(DEBUG_BUILD "generate debug binaries" ON)
 
 if(DEBUG_BUILD)
   add_definitions(-DDEBUG_BUILD)
+  message("Debug Build")
 endif()
 
 #Headers
@@ -16,7 +17,7 @@ include_directories(include src)
 
 #Sources
 #set(SOURCES src/plot.cpp src/plotdata.cpp src/subplot.cpp src/test_tmp.cpp)
-set(SOURCES src/test_compile.cpp)
+set(SOURCES src/test_compile.cpp src/tinyfiledialogs.c)
 
 set(EXEC_NAME cpp_plt)
 

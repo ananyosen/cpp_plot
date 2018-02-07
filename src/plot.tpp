@@ -3,14 +3,17 @@
 
 #ifdef DEBUG_BUILD
 #include <iostream>
-#include <SFML/System/Vector2.hpp>
 #endif
 
 #include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+
+#include "tinyfiledialogs.h"
 
 #include <subplot.hpp>
 
@@ -115,10 +118,16 @@ namespace cpl{
 
     void Plot::save(std::string file_name)
     {
-        this->show(true, file_name);
+        sf::RenderTexture target_texture;
+        target_texture.create(this->window_width, this->window_height);
+        target_texture.setSmooth(true);
+        this->draw(&target_texture);
+        sf::Texture tmp_tx = target_texture.getTexture();
+        sf::Image tmp_img = tmp_tx.copyToImage();
+        tmp_img.saveToFile(file_name);
     }
 
-    void Plot::show(bool save_img, std::string file_name)
+    void Plot::show()
     {
         sf::ContextSettings settings;
         settings.antialiasingLevel = 8; // 8xMSAA
@@ -139,6 +148,30 @@ namespace cpl{
                     {
                         window.close();
                     }
+                    if(event.key.code == sf::Keyboard::Key::S)
+                    {
+                        /* Show a file save dialog */
+                        const char* save_file_name;
+                        const char* file_filter_pattern[3] = {"*.png", "*.jpg", "*.bmp"};
+                        save_file_name = tinyfd_saveFileDialog(
+                            "Save plot",
+                            "./plot.png",
+                            3,
+                            file_filter_pattern,
+                            NULL
+                        );
+                        #ifdef DEBUG_BUILD
+                        std::cout << save_file_name << std::endl;
+                        #endif
+                        if(save_file_name)
+                        {
+                            sf::Texture tmp_tx;
+                            tmp_tx.create(window.getSize().x, window.getSize().y);
+                            tmp_tx.update(window);
+                            sf::Image tmp_im = tmp_tx.copyToImage();
+                            tmp_im.saveToFile(save_file_name);
+                        }
+                    }
                 }
                 if(event.type == sf::Event::Resized)
                 {
@@ -154,22 +187,20 @@ namespace cpl{
             {
                 this->subplots.at(jjj).draw(&window);
             }
-
-            if(save_img)
-            {
-                sf::Texture tmp_texture = sf::Texture();
-                tmp_texture.create(window.getSize().x, window.getSize().y); 
-                tmp_texture.update(window);
-                sf::Image tmp_img =  tmp_texture.copyToImage();
-                tmp_img.saveToFile(file_name);
-                window.close();
-            }
-            else
-            {
-                window.display();                
-            }
+            window.display();                
         }
+    }
 
+    void Plot::draw(sf::RenderTexture* window)
+    {
+        window->clear(sf::Color::White);
+
+        /* Draw the subplots */       
+        for(int jjj = 0; jjj < this->subplots.size(); jjj++)
+        {
+            this->subplots.at(jjj).draw(window);
+        }
+        window->display();                
     }
 
     template <typename T, typename U>       

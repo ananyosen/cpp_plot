@@ -12,6 +12,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/PrimitiveType.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 #include <plotdata.hpp>
 
@@ -114,7 +115,7 @@ namespace cpl
         }
     }
 
-    void Subplot::draw(sf::RenderWindow* render_wndw)
+    void Subplot::draw(sf::RenderTarget* render_wndw)
     {
         /* Oh boy, this is a big one */
         this->parent_window = render_wndw;

@@ -4,10 +4,17 @@
 #include <vector>
 #include <string>
 
+#ifdef DEBUG_BUILD
+#include <iostream>
+#endif
+
 #include <SFML/Window.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 #include <subplot.hpp>
 
@@ -54,7 +61,7 @@ namespace cpl{
             void title(std::string plot_title);
 
             void save(std::string file_name);
-            void show(bool save_img = false, std::string file_name = "def.png"); /* Setup window and show the plot */
+            void show(); /* Setup window and show the plot */
 
         private:
 
@@ -65,6 +72,7 @@ namespace cpl{
             bool has_data;
             template <typename T, typename U>            
             void initialize_plot(std::vector<T>& x_list, std::vector<U>& y_list, std::string format_string, std::string legend);
+            void draw(sf::RenderTexture* window);
 
 
             /* Helper functions */

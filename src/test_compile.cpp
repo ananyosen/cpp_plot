@@ -1,4 +1,4 @@
-#include<vector>
+#include <vector>
 #include <cmath>
 
 #include <plot.hpp>
@@ -25,6 +25,6 @@ int main()
     // plt.show();
     cpl::plot(x, y);
     cpl::plot(x, y2);
-    // cpl::show();
-    cpl::save("plot.png");
+    cpl::show();
+    cpl::save("plt.png");
 }
